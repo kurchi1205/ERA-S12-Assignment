@@ -1,7 +1,7 @@
 from torchvision import datasets
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
-import lightning.pytorch as pl
+import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 import os
 import torch
@@ -44,7 +44,7 @@ class CIFAR10LitModule(pl.LightningDataModule):
             ]
         )
 
-    def setup(self, stage: str):
+    def setup(self, stage: str = "train"):
         self.train_ds = CIFAR10WithAlbumentations('./data', train=True, download=True, transform=self.train_transforms)
         self.test_ds = CIFAR10WithAlbumentations('./data', train=False, download=True, transform=self.test_transforms)
         self.val_ds = CIFAR10WithAlbumentations('./data', train=False, download=True, transform=self.test_transforms)
