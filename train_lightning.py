@@ -12,7 +12,7 @@ class LitResnet(LightningModule):
         self.model = Net()
         self.loss_fn = nn.CrossEntropyLoss()
         self.learning_rate = learning_rate
-        self.accuracy = Accuracy()
+        self.accuracy = Accuracy(task="multiclass", num_classes=10)
 
     def forward(self, x):
         return self.model(x)
