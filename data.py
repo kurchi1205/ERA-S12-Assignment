@@ -52,15 +52,15 @@ class CIFAR10LitModule(pl.LightningDataModule):
 
     def train_dataloader(self):
         cuda = torch.cuda.is_available()
-        dataloader_args = dict(shuffle=True, batch_size=self.batch_size, num_workers=os.cpu.count, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
+        dataloader_args = dict(shuffle=True, batch_size=self.batch_size, num_workers=4, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
         return DataLoader(self.train_ds, **dataloader_args)
 
     def val_dataloader(self):
         cuda = torch.cuda.is_available()
-        dataloader_args = dict(shuffle=True, batch_size=self.batch_size, num_workers=os.cpu.count, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
+        dataloader_args = dict(shuffle=True, batch_size=self.batch_size, num_workers=4, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
         return DataLoader(self.val_ds, **dataloader_args)
 
     def test_dataloader(self):
         cuda = torch.cuda.is_available()
-        dataloader_args = dict(shuffle=True, batch_size=self.batch_size, num_workers=os.cpu.count, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
+        dataloader_args = dict(shuffle=True, batch_size=self.batch_size, num_workers=4, pin_memory=True) if cuda else dict(shuffle=True, batch_size=64)
         return DataLoader(self.test_ds, **dataloader_args)
