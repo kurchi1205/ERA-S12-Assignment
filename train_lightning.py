@@ -3,6 +3,8 @@ import os
 import torch
 import torch.nn as nn
 from pytorch_lightning import LightningModule
+from torchmetrics import Accuracy
+
 
 class LitResnet(LightningModule):
     def __init__(self, learning_rate):
@@ -10,6 +12,7 @@ class LitResnet(LightningModule):
         self.model = Net()
         self.loss_fn = nn.CrossEntropyLoss()
         self.learning_rate = learning_rate
+        self.accuracy = Accuracy()
 
     def forward(self, x):
         return self.model(x)
