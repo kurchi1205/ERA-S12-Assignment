@@ -2,23 +2,8 @@ import torchvision
 import numpy as np
 from torchvision import transforms
 from data import CIFAR10WithAlbumentations
-from torch.utils.data import DataLoader
-import albumentations as A
-from albumentations.pytorch import ToTensorV2
+import torch
 
-
-means = [0.4914, 0.4822, 0.4465]
-stds = [0.2470, 0.2435, 0.2616]
-
-test_transforms = A.Compose(
-            [
-                A.Normalize(mean=means, std=stds, always_apply=True),
-                ToTensorV2(),
-            ]
-        )
-infer_ds = CIFAR10WithAlbumentations('./data', train=False, download=True, transform=test_transforms)
-dataloader_args = dict(shuffle=True, batch_size=1)
-infer_loader = DataLoader(infer_ds, **dataloader_args)
 
 def plot_misclassified(misclassified):
     f, axarr = plt.subplots(5,2, figsize=(8, 12))
@@ -46,7 +31,7 @@ def get_misclassified_images_with_label(tensor, pred_label, class_to_idx):
         "pred_idx": pred_label
     }
 
-    
+
 def interval_mapping(image, from_min, from_max, to_min, to_max):
     from_range = from_max - from_min
     to_range = to_max - to_min
