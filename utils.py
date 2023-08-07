@@ -50,7 +50,7 @@ def infer(model, device, infer_loader, misclassified, class_to_idx):
     model.eval()
     with torch.no_grad():
         for data, target in infer_loader:
-            data, target = data.to(device), target.to(device)
+            data, target = data.to("cpu"), target.to("cpu")
             output = model(data)
             pred = output.argmax(dim=1, keepdim=True)
             
