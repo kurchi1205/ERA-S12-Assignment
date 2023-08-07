@@ -3,6 +3,7 @@ import numpy as np
 from torchvision import transforms
 from data import CIFAR10WithAlbumentations
 import torch
+import matplotlib.pyplot as plt
 
 
 def plot_misclassified(misclassified):
@@ -50,7 +51,7 @@ def infer(model, device, infer_loader, misclassified, class_to_idx):
     model.eval()
     with torch.no_grad():
         for data, target in infer_loader:
-            data, target = data.to("cpu"), target.to("cpu")
+            data, target = data.to(device), target.to(device)
             output = model(data)
             pred = output.argmax(dim=1, keepdim=True)
             
