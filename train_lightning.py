@@ -13,6 +13,10 @@ class LitResnet(LightningModule):
         self.loss_fn = nn.CrossEntropyLoss()
         self.learning_rate = learning_rate
         self.accuracy = Accuracy(task="multiclass", num_classes=10)
+        self.train_losses = []
+        self.val_losses = []
+        self.train_acc = []
+        self.val_acc = []
 
     def forward(self, x):
         return self.model(x)
@@ -22,7 +26,12 @@ class LitResnet(LightningModule):
         x, y = batch
         logits = self(x)
         loss = self.loss_fn(logits, y)
+        preds = torch.argmax(logits, dim=1)
+        accuracy = self.accuracy(preds, y)
         self.log("train_loss", loss, prog_bar=True)
+        self.log("train_acc", accuracy, prog_bar=True)
+        self.train_losses.append(loss)
+        self.train_acc.append(accuracy)
         return loss
 
 
@@ -31,9 +40,11 @@ class LitResnet(LightningModule):
         logits = self(x)
         loss = self.loss_fn(logits, y)
         preds = torch.argmax(logits, dim=1)
-        self.accuracy(preds, y)
+        accuracy = self.accuracy(preds, y)
         self.log("val_loss", loss, prog_bar=True)
-        self.log("val_acc", self.accuracy, prog_bar=True)
+        self.log("val_acc", accuracy, prog_bar=True)
+        self.val_losses.append(loss)
+        self.val_acc.append(accuracy)
         return loss
 
 
